@@ -4,7 +4,6 @@ class Dashing.JenkinsBuilds extends Dashing.Widget
     # This is fired when the widget is done being rendered
 
   onData: (data) ->
-    console.log(data)
     if data.failed_count > 0
       @set('status', 'failed')
     else
