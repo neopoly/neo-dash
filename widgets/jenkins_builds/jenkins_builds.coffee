@@ -8,4 +8,5 @@ class Dashing.JenkinsBuilds extends Dashing.Widget
       @set('status', 'failed')
     else
       @set('status', 'passed')
+    $(@node).removeClass('failed passed')
     $(@node).addClass(@get('status'))
