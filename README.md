@@ -14,3 +14,7 @@ Dashboard for neopoly with http://shopify.github.com/dashing
 ![Screenshot](http://github.com/neopoly/neo-dash/raw/master/neo-dash.png)
 
 Quite empty right now.
+
+# TODO
+
+* Extract widgets as own gems (if possible)
