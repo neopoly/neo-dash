@@ -7,7 +7,18 @@ Dashboard for neopoly with http://shopify.github.com/dashing
     git clone git@github.com:neopoly/neo-dash.git
     cd neo-dash
     bundle
-    bundle exec rackup
+
+# Run
+
+    # client need it eventually
+    export AUTH_TOKEN="my secret token"
+
+## Jenkins builds widget
+
+    # Base URL to your Jenkins server. "/api/json" will be appendend
+    export JENKINS_BUILDS_URL="http://our.ci.domain"
+    # How often do we fetch Jenkins status. Defaults to `5s`.
+    export JENKINS_BUILDS_EVERY=5s
 
 # Screenshot
 
