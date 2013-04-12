@@ -8,3 +8,7 @@ Dashboard for neopoly with http://shopify.github.com/dashing
       cd neo-dash
       bundle
       bundle exec rackup
+
+# Screenshot
+
+    ![Screenshot](http://github.com/neopoly/neo-dash/raw/master/neo-dash.png)
