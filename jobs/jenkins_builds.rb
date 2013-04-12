@@ -1,6 +1,7 @@
 require 'json'
 require 'net/http'
 
+JENKINS_BUILDS_EVERY = ENV['JENKINS_BUILDS_EVERY'] || "5s"
 JENKINS_BUILDS_URL = ENV['JENKINS_BUILDS_URL']
 
 abort "Need JENKINS_BUILDS_URL to be set" unless JENKINS_BUILDS_URL
@@ -50,6 +51,6 @@ class JenkinsBuilds
   end
 end
 
-SCHEDULER.every '5s', :first_in => 0 do
+SCHEDULER.every JENKINS_BUILDS_EVERY, :first_in => 0 do
   JenkinsBuilds.new(JENKINS_BUILDS_URL, self).run
 end
