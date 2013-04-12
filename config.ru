@@ -1,7 +1,11 @@
 require 'dashing'
 
+AUTH_TOKEN = ENV['AUTH_TOKEN']
+
+abort "Need AUTH_TOKEN env" unless AUTH_TOKEN
+
 configure do
-  set :auth_token, 'YOUR_AUTH_TOKEN'
+  set :auth_token, AUTH_TOKEN
 
   helpers do
     def protected!
