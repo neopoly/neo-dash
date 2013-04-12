@@ -18,13 +18,11 @@ class JenkinsBuilds
   end
 
   def send_events(jobs)
-    failed = jobs.select(&:failed?)
+    failed_jobs = jobs.select(&:failed?)
 
     @sender.send :send_event, 'jenkins_builds',
       url:          @base_url.to_s,
-      total_count:  jobs.size,
-      failed_count: failed.size,
-      failed:  failed.map(&:to_hash)
+      failed_jobs:  failed_jobs.map(&:to_hash)
   end
 
   def fetch_jobs
