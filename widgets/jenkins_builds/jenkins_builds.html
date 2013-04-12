@@ -1,0 +1,16 @@
+<a data-bind-href="url"><h1 data-bind="title"></h1></a>
+
+<div class="passed" data-showif="status | equals 'passed'">
+  <span class="smiley">✔</span>
+</div>
+
+<div class="failed" data-showif="status | equals 'failed'">
+  <span class="smiley">☹</span>
+  <ul>
+    <li data-foreach-item="failed">
+      <a data-bind-href="item.url"><span class="label" data-bind="item.name"></span></a>
+    </li>
+  </ul>
+</div>
+
+<span class="updated-at" data-bind="updatedAtMessage"></span>
