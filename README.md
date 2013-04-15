@@ -15,8 +15,8 @@ Dashboard for neopoly with http://shopify.github.com/dashing
 
 ## Jenkins builds widget
 
-    # Base URL to your Jenkins server. "/api/json" will be appendend
-    export JENKINS_BUILDS_URL="http://our.ci.domain"
+    # URL to Jenkins' JSON API.
+    export JENKINS_BUILDS_URL="http://our.ci.domain/api/json"
     # How often do we fetch Jenkins status. Defaults to `5s`.
     export JENKINS_BUILDS_EVERY=5s
 

@@ -7,40 +7,62 @@ JENKINS_BUILDS_URL = ENV['JENKINS_BUILDS_URL']
 abort "Need JENKINS_BUILDS_URL to be set" unless JENKINS_BUILDS_URL
 
 class JenkinsBuilds
-  def initialize(base_url, sender)
-    @base_url = URI(base_url)
+  def initialize(url, sender)
+    @url    = url
     @sender = sender
   end
 
   def run
-    jobs = fetch_jobs
-    send_events(jobs)
+    response = fetch(@url)
+    send_events(response)
   end
 
-  def send_events(jobs)
-    failed_jobs = jobs.select(&:failed?)
+  private
 
+  def send_events(response)
     @sender.send :send_event, 'jenkins_builds',
-      url:          @base_url.to_s,
-      failed_jobs:  failed_jobs.map(&:to_hash)
+      url:          response.base_url,
+      failed_jobs:  response.failed_jobs.map(&:to_hash)
   end
 
-  def fetch_jobs
-    uri = @base_url + "/api/json"
-    json = JSON Net::HTTP.get(uri)
-    jobs = json["jobs"].map { |job| JenkinsJob.new(job) }
+  def fetch(url)
+    json = JSON Net::HTTP.get(URI(url))
+    Response.new(json)
+  rescue => e
+    warn "Failed to fetch jenkins builds: #{e.class}"
+    Response.new({})
   end
 
-  class JenkinsJob
+
+  class Response
+    attr_reader :jobs
+
+    def initialize(json)
+      @json = json
+    end
+
+    def jobs
+      @json.fetch("jobs", []).map { |job| Job.new(job) }
+    end
+
+    def failed_jobs
+      jobs.select(&:failed?)
+    end
+
+    def base_url
+      @json.fetch("primaryView", {}).fetch("url", "?")
+    end
+  end
+
+  class Job
     attr_reader :name, :url
 
     def initialize(json)
-      @color  = json["color"]
       @json   = json
     end
 
     def failed?
-      @color == "red"
+      @json["color"] == "red"
     end
 
     def to_hash
