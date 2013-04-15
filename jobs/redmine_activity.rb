@@ -138,7 +138,7 @@ class RedmineActivities
 
     def initialize(feed_entry)
       @feed_entry = feed_entry
-      @project    = title[PROJECT_PATTERN] || ""
+      @project    = title[PROJECT_PATTERN, 1] || ""
       @author     = @feed_entry.author
     end
 
