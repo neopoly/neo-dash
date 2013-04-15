@@ -130,7 +130,7 @@ class RedmineActivities
   end
 
   class Activity
-    TITLE_PATTERN = /^(\w+)/
+    PROJECT_PATTERN = /^([^-]+) -/
 
     attr_reader :project, :author
 
@@ -138,7 +138,7 @@ class RedmineActivities
 
     def initialize(feed_entry)
       @feed_entry = feed_entry
-      @project    = title[TITLE_PATTERN] || ""
+      @project    = title[PROJECT_PATTERN] || ""
       @author     = @feed_entry.author
     end
 
