@@ -40,7 +40,7 @@ class RedmineActivities
   end
 
   def send_projects(projects)
-    @sender.send :send_event, 'redmine_activity_projects',
+    @sender.send_event 'redmine_activity_projects',
       projects: projects.map(&:to_hash)
   end
 
@@ -112,5 +112,5 @@ end
 
 
 SCHEDULER.every REDMINE_ACTIVITY_EVERY, :first_in => 0 do |job|
-  RedmineActivities.new(REDMINE_ACTIVITY_URL, self).run
+  RedmineActivities.new(REDMINE_ACTIVITY_URL, SENDER).run
 end

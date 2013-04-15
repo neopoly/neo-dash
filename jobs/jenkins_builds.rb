@@ -20,7 +20,7 @@ class JenkinsBuilds
   private
 
   def send_events(response)
-    @sender.send :send_event, 'jenkins_builds',
+    @sender.send_event 'jenkins_builds',
       url:          response.base_url,
       failed_jobs:  response.failed_jobs.map(&:to_hash)
   end
@@ -72,5 +72,5 @@ class JenkinsBuilds
 end
 
 SCHEDULER.every JENKINS_BUILDS_EVERY, :first_in => 0 do
-  JenkinsBuilds.new(JENKINS_BUILDS_URL, self).run
+  JenkinsBuilds.new(JENKINS_BUILDS_URL, SENDER).run
 end
