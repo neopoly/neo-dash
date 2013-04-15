@@ -22,22 +22,21 @@ class RedmineActivities
 
   def fetch_activities
     feed = Feedzirra::Feed.fetch_and_parse(@base_url)
-    unless feed.is_a?(Fixnum) # Feezirra returns a status code in case of an error
+    unless feed.is_a?(Fixnum) # Feedzirra returns a status code in case of an error
       parse_activites feed.entries
     end
   end
 
   def parse_activites(entries)
-    entries.map{|entry| RedmineActivities::RedmineActivity.new(entry)}
+    entries.map { |entry| Activity.new(entry) }
   end
 
   def activites_to_projects(activities)
-    projects = {}
+    projects = Hash.new { |hash, project| hash[project] = Project.new(project) }
     activities.each do |activity|
-      project = projects[activity.project] ||= RedmineProject.new(activity.project)
-      project << activity
+      projects[activity.project] << activity
     end
-    projects.values.sort_by{|p| -p.size}
+    projects.values.sort
   end
 
   def send_projects(projects)
@@ -45,7 +44,8 @@ class RedmineActivities
       projects: projects.map(&:to_hash)
   end
 
-  class RedmineProject
+  class Project
+    include Comparable
     attr_reader :activities, :name
 
     delegate :<<, :size, :to => :activities
@@ -59,6 +59,12 @@ class RedmineActivities
       activities.map(&:at).sort.last
     end
 
+    def <=>(other)
+      result = other.size <=> self.size
+      result = other.updated_at <=> self.updated_at if result == 0
+      result
+    end
+
     def to_hash
       {
         :name       => name,
@@ -69,8 +75,8 @@ class RedmineActivities
     end
   end
 
-  class RedmineActivity
-    TITLE_PATTERN = /(\w+) \-.*/
+  class Activity
+    TITLE_PATTERN = /^(\w+)/
 
     attr_reader :project
 
@@ -78,11 +84,7 @@ class RedmineActivities
 
     def initialize(feed_entry)
       @feed_entry = feed_entry
-      if title =~ TITLE_PATTERN
-        @project = $1
-      else
-        @project = ""
-      end
+      @project    = title[TITLE_PATTERN] || ""
     end
 
     def user
@@ -112,5 +114,3 @@ end
 SCHEDULER.every REDMINE_ACTIVITY_EVERY, :first_in => 0 do |job|
   RedmineActivities.new(REDMINE_ACTIVITY_URL, self).run
 end
-
-
