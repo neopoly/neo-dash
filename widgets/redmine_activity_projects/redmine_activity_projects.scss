@@ -1,0 +1,17 @@
+@import "../list/list";
+
+// ----------------------------------------------------------------------------
+// Widget-redmine-activity_projects styles
+// ----------------------------------------------------------------------------
+.widget-redmine-activity_projects {
+  @extend .widget-list;
+
+  ol.projects{
+    list-style: none;
+    margin: 0;
+
+    span.updated_at{
+      color: rgba(255,255,255,0.4);
+    }
+  }
+}
