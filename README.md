@@ -20,6 +20,13 @@ Dashboard for neopoly with http://shopify.github.com/dashing
     # How often do we fetch Jenkins status. Defaults to `5s`.
     export JENKINS_BUILDS_EVERY=5s
 
+## Redmine activity widgets
+
+    # URL to your activity feed.
+    export REDMINE_ACTIVITY_URL="http://redmine.yourhost.com/activity.atom?key=<secret key>"
+    # How often do we fetch the activity. Defaults to `120s`.
+    export REDMINE_ACTIVITY_EVERY=120s
+
 # Screenshot
 
 ![Screenshot](http://github.com/neopoly/neo-dash/raw/master/neo-dash.png)
