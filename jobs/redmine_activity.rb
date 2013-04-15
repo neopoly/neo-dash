@@ -7,9 +7,9 @@ REDMINE_ACTIVITY_URL   = ENV['REDMINE_ACTIVITY_URL']
 abort "Need REDMINE_ACTIVITY_URL to be set" unless REDMINE_ACTIVITY_URL
 
 class RedmineActivities
-  def initialize(base_url, sender)
-    @base_url = base_url
-    @sender   = sender
+  def initialize(url, sender)
+    @url    = url
+    @sender = sender
   end
 
   def run
@@ -21,7 +21,7 @@ class RedmineActivities
   protected
 
   def fetch_activities
-    feed = Feedzirra::Feed.fetch_and_parse(@base_url)
+    feed = Feedzirra::Feed.fetch_and_parse(@url)
     unless feed.is_a?(Fixnum) # Feedzirra returns a status code in case of an error
       parse_activites feed.entries
     end
