@@ -1,3 +1,3 @@
 class Dashing.RedmineActivityUsers extends Dashing.Widget
   onData: (data) ->
-    $(@node).fadeOut().fadeIn()
+    # $(@node).fadeOut().fadeIn()
