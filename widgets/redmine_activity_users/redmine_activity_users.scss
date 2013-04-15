@@ -1,0 +1,19 @@
+@import "../list/list";
+
+// ----------------------------------------------------------------------------
+// Widget-redmine-activity_users styles
+// ----------------------------------------------------------------------------
+.widget-redmine-activity_users {
+  @extend .widget-list;
+
+  background-color: #aa4891;
+
+  ol.projects{
+    list-style: none;
+    margin: 0;
+
+    span.updated_at{
+      color: rgba(255,255,255,0.4);
+    }
+  }
+}

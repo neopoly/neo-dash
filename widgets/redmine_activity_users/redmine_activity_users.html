@@ -1,0 +1,15 @@
+<h1 class="title" data-bind="title"></h1>
+
+<ol class="users">
+  <li data-foreach-item="users">
+    <span class="label" data-bind="item.name"></span>
+    <ol class="projects">
+      <li data-foreach-item="item.projects">
+        <span class="label" data-bind="item.name"></span>
+        <span class="updated_at" data-bind="item.updated_at | relativeDate"></span>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p class="updated-at" data-bind="updatedAtMessage"></p>
