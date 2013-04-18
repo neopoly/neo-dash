@@ -7,6 +7,8 @@ abort "Need AUTH_TOKEN env" unless AUTH_TOKEN
 configure do
   set :auth_token, AUTH_TOKEN
 
+  set :protection, :except => :frame_options
+
   helpers do
     def protected!
      # Put any authentication code you want in here.
