@@ -17,8 +17,12 @@ configure do
   end
 end
 
-map Sinatra::Application.assets_prefix do
+map "/dashboard" + Sinatra::Application.assets_prefix do
   run Sinatra::Application.sprockets
+end
+
+map "/dashboard" do
+  run Sinatra::Application
 end
 
 run Sinatra::Application
