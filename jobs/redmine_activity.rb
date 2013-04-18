@@ -14,7 +14,8 @@ class RedmineActivities
 
   def run
     if activities = fetch_activities
-      send_projects activites_to_projects(activities)
+      send_projects activities_to_projects(activities)
+      send_users    activities_to_users(activities)
     end
   end
 
@@ -31,7 +32,7 @@ class RedmineActivities
     entries.map { |entry| Activity.new(entry) }
   end
 
-  def activites_to_projects(activities)
+  def activities_to_projects(activities)
     projects = Hash.new { |hash, project| hash[project] = Project.new(project) }
     activities.each do |activity|
       projects[activity.project] << activity
@@ -39,9 +40,22 @@ class RedmineActivities
     projects.values.sort
   end
 
+  def activities_to_users(activities)
+    users = Hash.new { |hash, name| hash[name] = User.new(name) }
+    activities.each do |activity|
+      users[activity.author] << activity
+    end
+    users.values.sort
+  end
+
   def send_projects(projects)
     @sender.send_event 'redmine_activity_projects',
       projects: projects.map(&:to_hash)
+  end
+
+  def send_users(users)
+    @sender.send_event 'redmine_activity_users',
+      users: users.map(&:to_hash)
   end
 
   class Project
@@ -75,20 +89,57 @@ class RedmineActivities
     end
   end
 
-  class Activity
-    TITLE_PATTERN = /^(\w+)/
+  class User
+    include Comparable
+    attr_reader :activities, :name
 
-    attr_reader :project
+    delegate :<<, :size, :to => :activities
+
+    def initialize(name)
+      @name       = name
+      @activities = []
+    end
+
+    def updated_at
+      activities.map(&:at).sort.last
+    end
+
+    def <=>(other)
+      result = other.size <=> self.size
+      result = other.updated_at <=> self.updated_at if result == 0
+      result
+    end
+
+    # TODO refactor!
+    def projects
+      projects = Hash.new { |hash, project| hash[project] = Project.new(project) }
+      activities.each do |activity|
+        projects[activity.project] << activity
+      end
+      projects.values.sort_by(&:updated_at).reverse
+    end
+
+    def to_hash
+      {
+        :name       => name,
+        :projects   => projects.first(3).map(&:to_hash),
+        :size       => size,
+        :updated_at => updated_at
+      }
+    end
+  end
+
+  class Activity
+    PROJECT_PATTERN = /^([^-]+) -/
+
+    attr_reader :project, :author
 
     delegate :title, :id, :to => :@feed_entry
 
     def initialize(feed_entry)
       @feed_entry = feed_entry
-      @project    = title[TITLE_PATTERN] || ""
-    end
-
-    def user
-      @feed_entry.author
+      @project    = title[PROJECT_PATTERN, 1] || ""
+      @author     = @feed_entry.author
     end
 
     def inspect
@@ -103,7 +154,7 @@ class RedmineActivities
       {
         :title   => title,
         :project => project,
-        :user    => user,
+        :author  => author,
         :at      => at
       }
     end

@@ -6,6 +6,8 @@
 .widget-redmine-activity_projects {
   @extend .widget-list;
 
+  background-color: #ec7e2d;
+
   ol.projects{
     list-style: none;
     margin: 0;
