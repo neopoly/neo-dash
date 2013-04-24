@@ -29,7 +29,7 @@ class RedmineActivities
   end
 
   def parse_activites(entries)
-    entries.map { |entry| Activity.new(entry) }
+    entries.map { |entry| Activity.new(entry) }.select(&:valid?)
   end
 
   def activities_to_projects(activities)
@@ -139,11 +139,15 @@ class RedmineActivities
     def initialize(feed_entry)
       @feed_entry = feed_entry
       @project    = title[PROJECT_PATTERN, 1] || ""
-      @author     = @feed_entry.author
+      @author     = @feed_entry.author.try(:strip)
     end
 
     def inspect
       "activity:#{id}"
+    end
+
+    def valid?
+      !!@author
     end
 
     def at
