@@ -130,7 +130,8 @@ class RedmineActivities
   end
 
   class Activity
-    PROJECT_PATTERN = /^([^-]+) -/
+    # Matches titles like "project-name - Task #1 ..."
+    PROJECT_PATTERN = /^([\w\-_ ]+) - /
 
     attr_reader :project, :author
 
