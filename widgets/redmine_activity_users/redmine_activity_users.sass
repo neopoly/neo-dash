@@ -8,18 +8,23 @@
 
   background-color: #361cab
 
+  div.columns
+    height: 90%
+    margin: 0
+    padding: 0
+    > div.column
+      float: left
+      width: 50%
+      height: 100%
+
   ol.users
     list-style: none
     margin: 0
-
-    > li
-      width: 50%
-      height: 120px
-      float: left
-
+    text-align: left
+    > li    
       ol.projects
         list-style: none
-        margin: 5px 0 0 25px
+        margin: 0 0 10px 25px
 
         > li
           font-weight: 100
