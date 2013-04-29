@@ -1,5 +1,7 @@
 @import "../list/list"
 
+$avatar_size: 32px
+
 // ----------------------------------------------------------------------------
 // Widget-redmine-activity_projects styles
 // ----------------------------------------------------------------------------
@@ -8,11 +10,42 @@
 
   cursor: default
   background-color: #ec7e2d
+  vertical-align: top!important
 
   ol.projects
     list-style: none
     margin: 0
 
+    a.label
+      color: rgba(255,255,255,0.8)
+
     span.updated_at
       color: rgba(255,255,255,0.4)
 
+    > li
+
+      ul.users
+        margin:  0
+        padding: 0
+        line-height: 0px
+        height: 0px
+        overflow: hidden
+        transition: line-height 250ms ease-out
+        transition: height 250ms ease-out
+        > li
+          list-style: none
+          float: left
+          margin: 0
+          padding: 0
+          img
+            width: $avatar_size
+            height: $avatar_size
+            opacity: 0
+            transition: opacity 500ms ease-out
+
+      &:hover
+        ul.users
+          line-height: $avatar_size
+          height: $avatar_size
+          > li img
+            opacity: 1
