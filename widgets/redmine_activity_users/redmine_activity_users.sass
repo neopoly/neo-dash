@@ -6,26 +6,32 @@
 .widget-redmine-activity_users
   @extend .widget-list
 
+  cursor: default
   background-color: #361cab
+
+  div.columns
+    height: 90%
+    margin: 0
+    padding: 0
+    > div.column
+      float: left
+      width: 50%
+      height: 100%
 
   ol.users
     list-style: none
     margin: 0
-
+    text-align: left
     > li
-      width: 50%
-      height: 120px
-      float: left
-
       ol.projects
         list-style: none
-        margin: 5px 0 0 25px
+        margin: 0 0 10px 25px
 
         > li
           font-weight: 100
           margin: 0
 
-          span.label
+          a.label
             color: rgba(255,255,255, 0.5)
 
           span.updated_at

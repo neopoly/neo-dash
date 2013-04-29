@@ -7,6 +7,8 @@ REDMINE_ACTIVITY_URL   = ENV['REDMINE_ACTIVITY_URL']
 abort "Need REDMINE_ACTIVITY_URL to be set" unless REDMINE_ACTIVITY_URL
 
 class RedmineActivities
+  REDMINE_URL_PATTERN = /(.+)activity\.atom/
+
   def initialize(url, sender)
     @url    = url
     @sender = sender
@@ -79,13 +81,24 @@ class RedmineActivities
       result
     end
 
+    def url
+      self.class.url + name
+    end
+
     def to_hash
       {
         :name       => name,
         :activities => activities.map(&:to_hash),
         :size       => size,
+        :url        => url,
         :updated_at => updated_at
       }
+    end
+
+    protected
+
+    def self.url
+      @url ||= REDMINE_ACTIVITY_URL[REDMINE_URL_PATTERN,1] + "projects/"
     end
   end
 
@@ -130,7 +143,8 @@ class RedmineActivities
   end
 
   class Activity
-    PROJECT_PATTERN = /^([^-]+) -/
+    # Matches titles like "project-name - Task #1 ..."
+    PROJECT_PATTERN = /^([\w\-_ ]+) - /
 
     attr_reader :project, :author
 
