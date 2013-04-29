@@ -128,7 +128,7 @@ class RedmineActivities
 
     def add_user(user)
       if users.add?(user)
-        user.projects << self
+        user.add_project self
       end
       user
     end
@@ -153,7 +153,7 @@ class RedmineActivities
   end
 
   class User < ActivityHolder
-    attr_reader :projects, :name, :email
+    attr_reader :name, :email
 
     GRAVATAR_URL = "https://www.gravatar.com/avatar/"
 
@@ -168,8 +168,12 @@ class RedmineActivities
       "user:#{name}"
     end
 
+    def add_project(project)
+      @projects << project
+    end
+
     def recent_projects(n = 3)
-      projects.sort_by(&:updated_at).reverse.first(n)
+      @projects.sort_by(&:updated_at).reverse.first(n)
     end
 
     def avatar
