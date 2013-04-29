@@ -12,13 +12,13 @@ class Dashing.RedmineActivityUsers extends Dashing.Widget
     # Partition the user into columns (groups) based on their amount of projects.
     # Goal is to have an equal amount of user projects in each column.
     # This is a "bin packing problem" which is approxmiated by a greedy algorithm
-    if users 
+    if users
       totalProjects = 0
       for user in users
         totalProjects += user.projects?.length || 0
 
       # Sort the users by their name
-      users.sort (a,b) -> 
+      users.sort (a,b) ->
         return -1 if a.name < b.name
         return  1 if a.name > b.name
         return  0
