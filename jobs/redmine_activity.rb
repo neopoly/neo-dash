@@ -1,4 +1,7 @@
+require 'set'
+require 'digest/md5'
 require 'active_support/core_ext/module/delegation'
+require 'sax-machine'
 require 'feedzirra'
 
 REDMINE_ACTIVITY_EVERY = ENV['REDMINE_ACTIVITY_EVERY'] || "120s"
@@ -16,8 +19,13 @@ class RedmineActivities
 
   def run
     if activities = fetch_activities
-      send_projects activities_to_projects(activities)
-      send_users    activities_to_users(activities)
+      projects = NamedPool.new Project
+      users    = NamedPool.new User
+
+      unpack_activities(activities, projects, users)
+
+      send_projects projects
+      send_users    users
     end
   end
 
@@ -34,41 +42,56 @@ class RedmineActivities
     entries.map { |entry| Activity.new(entry) }.select(&:valid?)
   end
 
-  def activities_to_projects(activities)
-    projects = Hash.new { |hash, project| hash[project] = Project.new(project) }
+  def unpack_activities(activities, projects, users)
     activities.each do |activity|
-      projects[activity.project] << activity
+      project = projects.find_or_create_by_name(activity.project)
+      project.activities << activity
+      user    = users.find_or_create_by_name(activity.author.name, :email => activity.author.email)
+      user.activities    << activity
+      project.add_user user
     end
-    projects.values.sort
-  end
-
-  def activities_to_users(activities)
-    users = Hash.new { |hash, name| hash[name] = User.new(name) }
-    activities.each do |activity|
-      users[activity.author] << activity
-    end
-    users.values.sort
   end
 
   def send_projects(projects)
+    # only send projects with more than one activity
     @sender.send_event 'redmine_activity_projects',
-      projects: projects.map(&:to_hash)
+      projects: projects.select{|p| p.size > 1}.sort.map(&:to_hash)
   end
 
   def send_users(users)
     @sender.send_event 'redmine_activity_users',
-      users: users.map(&:to_hash)
+      users: users.sort.map(&:to_hash)
   end
 
-  class Project
+  class NamedPool
+    delegate :each, :map, :size, :sort, :select, :to => :all
+
+    def initialize(klass)
+      @klass = klass
+      clear!
+    end
+
+    def find_or_create_by_name(name, attributes = {})
+      @pool[name] ||= @klass.new(attributes.merge(:name => name))
+    end
+
+    def all
+      @pool.values
+    end
+
+    def clear!
+      @pool = Hash.new
+    end
+  end
+
+  class ActivityHolder
     include Comparable
-    attr_reader :activities, :name
+    attr_reader :activities
 
-    delegate :<<, :size, :to => :activities
+    delegate :size, :to => :activities
 
-    def initialize(name)
-      @name       = name
-      @activities = []
+    def initialize
+      @activities = Set.new
     end
 
     def updated_at
@@ -81,18 +104,45 @@ class RedmineActivities
       result
     end
 
+    def to_hash
+      {
+        :activities => activities.map(&:to_hash),
+        :updated_at => updated_at,
+        :size       => size
+      }
+    end
+  end
+
+  class Project < ActivityHolder
+    attr_reader :users, :name
+
+    def initialize(attributes)
+      super()
+      @name       = attributes[:name]
+      @users      = Set.new
+    end
+
+    def inspect
+      "project:#{name}"
+    end
+
+    def add_user(user)
+      if users.add?(user)
+        user.projects << self
+      end
+      user
+    end
+
     def url
-      self.class.url + name
+      self.class.url + name.gsub(" ","-") + "/activity"
     end
 
     def to_hash
-      {
+      super.merge({
         :name       => name,
-        :activities => activities.map(&:to_hash),
-        :size       => size,
         :url        => url,
-        :updated_at => updated_at
-      }
+        :users      => users.map(&:to_base_hash)
+      })
     end
 
     protected
@@ -102,43 +152,42 @@ class RedmineActivities
     end
   end
 
-  class User
-    include Comparable
-    attr_reader :activities, :name
+  class User < ActivityHolder
+    attr_reader :projects, :name, :email
 
-    delegate :<<, :size, :to => :activities
+    GRAVATAR_URL = "https://www.gravatar.com/avatar/"
 
-    def initialize(name)
-      @name       = name
-      @activities = []
+    def initialize(attributes)
+      super()
+      @name       = attributes[:name]
+      @email      = attributes[:email]
+      @projects   = Set.new
     end
 
-    def updated_at
-      activities.map(&:at).sort.last
+    def inspect
+      "user:#{name}"
     end
 
-    def <=>(other)
-      result = other.size <=> self.size
-      result = other.updated_at <=> self.updated_at if result == 0
-      result
+    def recent_projects(n = 3)
+      projects.sort_by(&:updated_at).reverse.first(n)
     end
 
-    # TODO refactor!
-    def projects
-      projects = Hash.new { |hash, project| hash[project] = Project.new(project) }
-      activities.each do |activity|
-        projects[activity.project] << activity
-      end
-      projects.values.sort_by(&:updated_at).reverse
+    def avatar
+      GRAVATAR_URL + Digest::MD5.hexdigest(email.strip.downcase)
+    end
+
+    def to_base_hash
+      {
+        :name       => name,
+        :email      => email,
+        :avatar     => avatar
+      }
     end
 
     def to_hash
-      {
-        :name       => name,
-        :projects   => projects.first(3).map(&:to_hash),
-        :size       => size,
-        :updated_at => updated_at
-      }
+      super.merge(to_base_hash).merge({
+        :projects   => recent_projects.map(&:to_hash)
+      })
     end
   end
 
@@ -153,7 +202,7 @@ class RedmineActivities
     def initialize(feed_entry)
       @feed_entry = feed_entry
       @project    = title[PROJECT_PATTERN, 1] || ""
-      @author     = @feed_entry.author.try(:strip)
+      @author     = @feed_entry.author
     end
 
     def inspect
@@ -161,7 +210,7 @@ class RedmineActivities
     end
 
     def valid?
-      !!@author
+      !!@author.try(:valid?)
     end
 
     def at
@@ -177,8 +226,25 @@ class RedmineActivities
       }
     end
   end
-end
 
+  # Simple wrapper to contain an atom entry author
+  class AuthorEntry
+    include SAXMachine
+
+    element :name
+    element :email
+
+    def valid?
+      name && email
+    end
+  end
+
+  # Extract name AND email from the author field
+  # (Feedzirra would normally only use the name)
+  class Feedzirra::Parser::AtomEntry
+    element :author, :class => AuthorEntry
+  end
+end
 
 SCHEDULER.every REDMINE_ACTIVITY_EVERY, :first_in => 0 do |job|
   RedmineActivities.new(REDMINE_ACTIVITY_URL, SENDER).run
