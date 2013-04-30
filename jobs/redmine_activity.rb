@@ -45,9 +45,9 @@ class RedmineActivities
   def unpack_activities(activities, projects, users)
     activities.each do |activity|
       project = projects.find_or_create_by_name(activity.project)
-      project.activities << activity
+      project.add_activity activity
       user    = users.find_or_create_by_name(activity.author.name, :email => activity.author.email)
-      user.activities    << activity
+      user.add_activity activity
       project.add_user user
     end
   end
@@ -87,11 +87,16 @@ class RedmineActivities
   class ActivityHolder
     include Comparable
     attr_reader :activities
+    private :activities
 
-    delegate :size, :to => :activities
+    delegate :size, :to => :@activities
 
     def initialize
       @activities = Set.new
+    end
+
+    def add_activity(activity)
+      activities << activity
     end
 
     def updated_at
