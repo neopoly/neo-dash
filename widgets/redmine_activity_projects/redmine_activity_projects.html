@@ -1,10 +1,15 @@
 <h1 class="title" data-bind="title"></h1>
 
 <ol class="projects">
-  <li data-foreach-item="projects">
-    <span class="label" data-bind="item.name | truncate 20" data-bind-title="item.name"></span>
+  <li data-foreach-item="projects" class="project">
+    <a class="label" data-bind="item.name | truncate 20" data-bind-title="'Activity' | pluralize item.size" data-bind-href="item.url" target="_blank"></a>
     <span class="updated_at" data-bind="item.updated_at | relativeDate"></span>
     <span class="value" data-bind="item.size"></span>
+    <ul class="users">
+      <li data-foreach-item="item.users">
+        <img data-bind-src="item.avatar" data-bind-title="item.name" data-bind-alt="item.email"/>
+      </li>
+    </ul>
   </li>
 </ol>
 
