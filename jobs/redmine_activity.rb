@@ -89,7 +89,7 @@ class RedmineActivities
     attr_reader :activities
     private :activities
 
-    delegate :size, :to => :@activities
+    delegate :size, :to => :activities
 
     def initialize
       @activities = Set.new
