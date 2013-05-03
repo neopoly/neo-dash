@@ -1,6 +1,6 @@
 # neo-dash
 
-Dashboard for neopoly with http://shopify.github.com/dashing
+Dashboard for [Neopoly GmbH](http://neopoly.de) with http://shopify.github.com/dashing
 
 # Install
 
