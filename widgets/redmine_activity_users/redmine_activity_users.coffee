@@ -2,6 +2,9 @@ class Dashing.RedmineActivityUsers extends Dashing.Widget
   # How many columns should be used, this should match the CSS
   @COLUMNS = 2
 
+  onData: (data) ->
+    $(@node).fadeOut().fadeIn()
+
   @accessor "columns", ->
     users = @get("users")
     # Initialize an empty array of columns
