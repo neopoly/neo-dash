@@ -1,6 +1,6 @@
 @import "../list/list"
 
-$avatar_size: 32px
+$avatar_size: 48px
 
 // ----------------------------------------------------------------------------
 // Widget-redmine-activity_projects styles
@@ -43,7 +43,9 @@ $avatar_size: 32px
             opacity: 0
             transition: opacity 500ms ease-out
 
-      &:hover
+      &:hover, &.full
+        a.label
+          color: rgba(255,255,255,1.0)
         ul.users
           line-height: $avatar_size
           height: $avatar_size
