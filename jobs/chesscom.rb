@@ -9,7 +9,7 @@ abort "Need CHESSCOM_USERNAME to be set" unless CHESSCOM_USERNAME
 class Chesscom
   VIEW_MEMBER = "http://www.chess.com/members/view/%{username}"
   FEN_JS = %r{acd_register\("\d+", "([^"]+)"}
-  FEN_BOARD = "http://www.chess.com/diagram?fen=%{fen}"
+  FEN_BOARD = "//www.chess.com/diagram?fen=%{fen}"
 
   def self.extract_fens(username)
     content = open(VIEW_MEMBER % { :username => username }).read
