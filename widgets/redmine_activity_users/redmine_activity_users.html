@@ -8,7 +8,6 @@
           <ol class="projects">
             <li data-foreach-item="item.projects">
               <a class="label" data-bind="item.name | truncate 20" data-bind-title="'Activity' | pluralize item.size | prepend ' - ' | prepend item.name" data-bind-href="item.url" target="_blank"></a>
-              <span class="updated_at" data-bind="item.updated_at | relativeDate"></span>
             </li>
           </ol>
         </li>
