@@ -1,0 +1,50 @@
+$background-color: transparent
+$success: #0d8136
+$failure: #cd181b
+
+.widget-errbit
+  background-color: $background-color
+  vertical-align: top
+
+  > ul > li
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    
+    > h1
+      font-size: 50px
+      color: rgba(255, 255, 255, 0.5)
+
+    > h2      
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      font-size: 30px
+      font-weight: normal
+
+    > h3
+      font-size: 80px
+
+    > h4
+      font-size: 15px
+      font-weight: normal
+      margin-bottom: 20px
+      color: rgba(255, 255, 255, 0.5)
+
+    > span
+      position: absolute
+      right: 0
+      left: 0
+      bottom: 50px
+      color: rgba(255, 255, 255, 0.5)
+
+    > p.updated-at
+      color: rgba(0, 0, 0, 0.3)
+
+    &.failed
+      background-color: $failure
+
+    &.passed
+      background-color: $success
