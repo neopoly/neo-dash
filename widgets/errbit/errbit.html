@@ -1,0 +1,11 @@
+<ul>
+  <li data-foreach-project="projects" data-bind-class="project.status">
+    <h1>Errbit</h1>
+    <h2 data-bind="project.name"></h2>
+    <h3 data-bind="project.errors"></h3>
+    <h4 data-showif="project.errors | equals 1">unresolved error</h4>
+    <h4 data-hideif="project.errors | equals 1">unresolved errors</h4>
+    <span data-bind="project.date | relativeDate | prepend 'Last error: '"></span>
+    <p class="updated-at" data-bind="updatedAtMessage"></p>
+  </li>
+</ul>
