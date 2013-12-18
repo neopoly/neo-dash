@@ -12,7 +12,6 @@ if NICHTLUSTIG_OVERVIEW_URL
   SCHEDULER.every SHIP_EVERY, :first_in => 0 do
     id = ids.sample
     url = NICHTLUSTIG_IMAGE_URL % id
-    p url
     SENDER.send_event 'nichtlustig', url: url
   end
 end
