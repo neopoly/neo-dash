@@ -6,8 +6,12 @@ $background-color: transparent;
 // ----------------------------------------------------------------------------
 // Widget-image styles
 // ----------------------------------------------------------------------------
-.widget-image {
+.widget-remote-image {
 
   background-color: $background-color;
+
+  img {
+    max-height: 320px;
+  }
 
 }
