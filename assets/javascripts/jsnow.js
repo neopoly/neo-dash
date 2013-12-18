@@ -21,22 +21,15 @@
         }
         var u = $("<div \/>");
         u.css({
-            width: k + "px",
-            height: 1,
+            width: "100%",
+            height: "100%",
             display: "block",
-            overflow: "visible",
+            overflow: "hidden",
             position: "absolute",
-            top: $("html").scrollTop() + 1 + "px",
-            left: "1px"
+            top:  "0px",
+            left: "0px"
         });
-        $("body").prepend(u).css({
-            "overflow": "hidden",
-            height: "100%"
-        });
-        $("html").css({
-            "overflow-y": "scroll",
-            "overflow-x": "hidden"
-        });
+        $("body").prepend(u);
         var v = Array();
         generateFlake(l, false);
         setInterval(animateFlakes, s);
