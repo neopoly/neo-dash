@@ -6,7 +6,7 @@ NICHTLUSTIG_IMAGE_URL = ENV['NICHTLUSTIG_IMAGE_URL'] || "http://static.nichtlust
 if NICHTLUSTIG_OVERVIEW_URL
   require 'open-uri'
 
-  overview = open(NICHTLUSTIG_OVERVIEW_URL).read.scan(%r{href="/toondb/(\d+)\.html"}i)
+  overview = open(NICHTLUSTIG_OVERVIEW_URL).read.scan(%r{href=".*?(\d+)\.jpg"}i)
   ids = overview.map { |x| x[0] }
 
   SCHEDULER.every SHIP_EVERY, :first_in => 0 do
