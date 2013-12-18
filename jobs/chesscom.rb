@@ -21,14 +21,6 @@ class Chesscom
     FEN_BOARD % { :fen => fen }
   end
 
-  def self.run(username)
-    fens = extract_fens(username)
-    if fens.any?
-    else
-
-    end
-  end
-
   def initialize(username, sender)
     @username = username
     @sender   = sender
