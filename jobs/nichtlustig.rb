@@ -9,7 +9,7 @@ if NICHTLUSTIG_OVERVIEW_URL
   overview = open(NICHTLUSTIG_OVERVIEW_URL).read.scan(%r{href=".*?(\d+)\.jpg"}i)
   ids = overview.map { |x| x[0] }
 
-  SCHEDULER.every SHIP_EVERY, :first_in => 0 do
+  SCHEDULER.every NICHTLUSTIG_EVERY, :first_in => 0 do
     id = ids.sample
     url = NICHTLUSTIG_IMAGE_URL % id
     SENDER.send_event 'nichtlustig', url: url
