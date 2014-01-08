@@ -5,7 +5,12 @@ $(function() {
   Dashing.numColumns = 5
 
   //X-MAS edition
-  jQuery().jSnow({zIndex: 100});
+  <%
+    now = Time.now
+    if (now.month == 12 && now.day > 10) || (now.month == 1 && now.day < 10)
+  %>
+    jQuery().jSnow({zIndex: 100});
+  <% end %>
 });
 </script>
 
