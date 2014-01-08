@@ -1,0 +1,28 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color: transparent;
+
+// ----------------------------------------------------------------------------
+// Widget-image styles
+// ----------------------------------------------------------------------------
+.widget-nichtlustig {
+  padding: 0!important;
+  background-color: $background-color;
+
+  img {
+    max-height: 320px;
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -160px;
+    margin-top: -160px;
+  }
+
+  .nichtlustig-background{
+    width: 370px;
+    height: 340px;
+  }
+
+}
