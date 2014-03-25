@@ -4,8 +4,6 @@ require 'uri'
 CHESSCOM_EVERY = ENV['CHESSCOM_EVERY'] || "5m"
 CHESSCOM_USERNAME = ENV['CHESSCOM_USERNAME']
 
-abort "Need CHESSCOM_USERNAME to be set" unless CHESSCOM_USERNAME
-
 class Chesscom
   VIEW_MEMBER = "http://www.chess.com/members/view/%{username}"
   FEN_JS = %r{acd_register\("\d+", "([^"]+)"}
@@ -40,6 +38,10 @@ class Chesscom
   end
 end
 
-SCHEDULER.every CHESSCOM_EVERY, :first_in => 0 do
-  Chesscom.new(CHESSCOM_USERNAME, SENDER).run
+if CHESSCOM_USERNAME
+  SCHEDULER.every CHESSCOM_EVERY, :first_in => 0 do
+    Chesscom.new(CHESSCOM_USERNAME, SENDER).run
+  end
+else
+  warn "Env var CHESSCOM_USERNAME is missing. Skip"
 end
