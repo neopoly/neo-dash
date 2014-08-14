@@ -22,6 +22,8 @@
     list-style: none
     margin: 0
     text-align: left
+    width: 90%
+
     > li
       > span
         color: rgba(255,255,255, 0.75)
@@ -30,11 +32,17 @@
         margin: 0 0 10px 25px
 
         > li
+          display: inline
           font-weight: 100
           margin: 0
 
           a.label
+            white-space: nowrap
             color: rgba(255,255,255, 0.5)
 
           span.updated_at
             color: rgba(255,255,255,0.2)
+
+        > li:not(:last-child) a:after
+          content: " | "
+          color: rgba(255,255,255, 0.1)
