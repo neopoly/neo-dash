@@ -3,7 +3,7 @@ REDMINE_PROJECT_TIMETABLE_URL   = (ENV['REDMINE_PROJECT_TIMETABLE_URL'] || "").t
 
 unless REDMINE_PROJECT_TIMETABLE_URL.empty?
   SCHEDULER.every REDMINE_PROJECT_TIMETABLE_EVERY, :first_in => 0 do
-    url = REDMINE_PROJECT_TIMETABLE_URL % { :month => Time.now.month.to_s, :year => Time.now.year.to_s }
+    url = REDMINE_PROJECT_TIMETABLE_URL % { :month => Time.now.month.to_s, :year => Time.now.year.to_s, :cache_key => Time.now.to_i }
     SENDER.send_event 'redmine_project_timetable', url: url
   end
 else
