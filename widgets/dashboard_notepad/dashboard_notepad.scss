@@ -1,22 +1,32 @@
+@import "../list/list";
+$background-color: #ec7e2d;
+
 .widget-dashboard-notepad {
-  background: orange;
+  background-color: $background-color;
 
   .title {
+    color: $title-color;
     position: absolute;
     top: 12px;
-    color: #222;
-    width: 100%;
+    left: 0;
+    right: 0;
   }
 
-  p.content {
-    color: #333;
+  div.content {
+    color: rgba(0, 0, 0, 0.7);
+    max-height: 240px;
+    overflow: hidden;
   }
 
-  p.hint {
+  p.more-info {
     width: 100%;
     position: absolute;
     bottom: 36px;
-    color: #666;
-    font-size: 90%;
+    color: $moreinfo-color;
+    font-size: 15px;
+  }
+
+  p.updated-at{
+    color: rgba(0, 0, 0, 0.3);
   }
 }
