@@ -1,7 +1,22 @@
 .widget-dashboard-notepad {
   background: orange;
 
+  .title {
+    position: absolute;
+    top: 12px;
+    color: #222;
+    width: 100%;
+  }
+
   p.content {
     color: #333;
+  }
+
+  p.hint {
+    width: 100%;
+    position: absolute;
+    bottom: 36px;
+    color: #666;
+    font-size: 90%;
   }
 }
