@@ -3,7 +3,7 @@ GEM
   specs:
     activesupport (3.1.12)
       multi_json (~> 1.0)
-    backports (3.3.0)
+    backports (3.6.3)
     builder (3.2.0)
     coffee-script (2.2.0)
       coffee-script-source
@@ -82,5 +82,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  backports (~> 3.6.3)
   dashing
   feedzirra (~> 0.1.3)
