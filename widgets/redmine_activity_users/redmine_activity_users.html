@@ -1,18 +1,15 @@
-<h1 class="title" data-bind="title"></h1>
-
-<div class="columns">
-  <div data-foreach-item="columns" class="column">
-      <ol class="users">
-        <li data-foreach-item="item.users">
-          <span class="label" data-bind="item.name" data-bind-title="'Activity' | pluralize item.size"></span>
-          <ol class="projects">
-            <li data-foreach-item="item.projects">
-              <a class="label" data-bind="item.name | truncate 30" data-bind-title="'Activity' | pluralize item.size | prepend ' - ' | prepend item.name" data-bind-href="item.url" target="_blank"></a>
-            </li>
-          </ol>
+<ol class="users">
+  <li data-foreach-item="users | withIndex" data-bind-class="item.viewIndex | prepend 'user-'">
+    <img data-bind-src="item.avatar | append '?s=370'" data-bind-title="item.name" data-bind-alt="item.email" class="avatar"/>
+    <div class="content">
+      <h1 class="label" data-bind="item.name" data-bind-title="'Activity' | pluralize item.size"></h1>
+      <ol class="projects">
+        <li data-foreach-item="item.projects">
+          <a class="label" data-bind="item.name | truncate 30" data-bind-title="'Activity' | pluralize item.size | prepend ' - ' | prepend item.name" data-bind-href="item.url" target="_blank"></a>
         </li>
       </ol>
-   </div>
-</ul>
+    </div>
+  </li>
+</ol>
 
 <p class="updated-at" data-bind="updatedAtMessage"></p>

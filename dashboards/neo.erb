@@ -17,11 +17,15 @@ $(function() {
 <% content_for(:title) { "neo dash" } %>
 <div class="gridster">
   <ul>
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="2">
-      <div data-id="redmine_activity_users" data-view="RedmineActivityUsers" data-title="Users"></div>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+      <div data-id="gitter" data-view="Gitter" data-title="Gitter"></div>
     </li>
+
     <li data-row="1" data-col="2" data-sizex="1" data-sizey="2">
       <div data-id="redmine_activity_projects" data-view="RedmineActivityProjects" data-title="Projects"></div>
+    </li>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="redmine_activity_users" data-view="RedmineActivityUsers" data-title="Users"></div>
     </li>
     <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="jenkins_builds" data-view="JenkinsBuilds" data-title="CI"></div>
@@ -32,14 +36,11 @@ $(function() {
     <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="nichtlustig" data-view="Nichtlustig"></div>
     </li>
-    <li data-row="2" data-col="4" data-sizex="1" data-sizey="1">
-      <div data-id="errbit" data-view="Errbit"></div>
+    <li data-row="2" data-col="4" data-sizex="1" data-sizey="2">
+      <div data-id="dashboard_notepad" data-view="DashboardNotepad" data-title="Neopad" data-hint="Edit via orga/wiki/DashboardNotepad"></div>
     </li>
     <li data-row="3" data-col="1" data-sizex="3" data-sizey="1">
       <div data-id="redmine_project_timetable" data-view="RedmineProjectTimetable" data-title="Timetable"></div>
-    </li>
-    <li data-row="3" data-col="4" data-sizex="1" data-sizey="1">
-      <div data-id="dashboard_notepad" data-view="DashboardNotepad" data-title="Neopad" data-hint="Edit via orga/wiki/DashboardNotepad"></div>
     </li>
     <li data-row="3" data-col="5" data-sizex="1" data-sizey="1">
       <div data-view="Image" data-image="/neopoly-logo.png"></div>

@@ -4,7 +4,7 @@ require 'active_support/core_ext/module/delegation'
 require 'sax-machine'
 require 'feedzirra'
 
-REDMINE_ACTIVITY_EVERY = ENV['REDMINE_ACTIVITY_EVERY'] || "120s"
+REDMINE_ACTIVITY_EVERY = ENV['REDMINE_ACTIVITY_EVERY'] || "240s"
 REDMINE_ACTIVITY_URL   = ENV['REDMINE_ACTIVITY_URL']
 
 abort "Need REDMINE_ACTIVITY_URL to be set" unless REDMINE_ACTIVITY_URL

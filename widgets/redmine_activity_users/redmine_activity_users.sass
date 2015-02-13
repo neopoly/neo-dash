@@ -1,48 +1,66 @@
-@import "../list/list"
-
 // ----------------------------------------------------------------------------
 // Widget-redmine-activity_users styles
 // ----------------------------------------------------------------------------
 .widget-redmine-activity_users
-  @extend .widget-list
-
   cursor: default
-  background-color: #361cab
-
-  div.columns
-    height: 90%
-    margin: 0
-    padding: 0
-    > div.column
-      float: left
-      width: 50%
-      height: 100%
 
   ol.users
     list-style: none
     margin: 0
-    text-align: left
-    width: 90%
 
     > li
-      > span
-        color: rgba(255,255,255, 0.75)
-      ol.projects
-        list-style: none
-        margin: 0 0 10px 25px
+      display: none
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      bottom: 0
+      &.user-0
+        display: block
+      h1
+        margin-top: 20px
 
-        > li
-          display: inline
-          font-weight: 100
+      img.avatar
+        position: absolute
+        width: 100%
+        height: 100%
+        left: 0
+        top: 0
+
+      .content
+        position: absolute
+        left: 0
+        top: 0
+        bottom: 0
+        right: 0
+        z-index: 2
+        background: rgba(0,0,0,0.6)
+
+        h1.label
+          margin-top: 110px
+
+        ol.projects
+          list-style: none
           margin: 0
 
-          a.label
-            white-space: nowrap
-            color: rgba(255,255,255, 0.5)
+          > li
+            display: inline
+            font-weight: 100
+            margin: 0
 
-          span.updated_at
-            color: rgba(255,255,255,0.2)
+            a.label
+              white-space: nowrap
+              color: rgba(255,255,255, 0.9)
 
-        > li:not(:last-child) a:after
-          content: " | "
-          color: rgba(255,255,255, 0.1)
+          > li:not(:last-child) a:after
+            content: " | "
+            color: rgba(255,255,255, 0.3)
+
+  .updated-at
+    color: rgba(255, 255, 255, 0.7)
+    font-size: 15px
+    position: absolute
+    bottom: 12px
+    left: 0
+    right: 0
+    z-index: 2
