@@ -1,0 +1,86 @@
+@import "../list/list";
+
+// ----------------------------------------------------------------------------
+// Widget-gitter styles
+// ----------------------------------------------------------------------------
+
+.widget-gitter{
+  @extend .widget-list;
+
+  h1.title{
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+  }
+
+  .no-messages{
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .scrollable{
+    position: absolute;
+    left: 10px;
+    top: 80px;
+    right: 10px;
+    bottom: 40px;
+    overflow: hidden;
+
+    .scrollable-content{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  ol.messages{
+    list-style: none;
+    margin: 0;
+
+    .chat, .event{
+      margin-top: 10px;
+    }
+
+    .avatar{
+      float: left;
+      width: 10%;
+      height: 10%;
+      margin-right: 3%;
+
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .content{
+      float: left;
+      width: 86%;
+      .meta{
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 12px;
+      }
+      p{
+        font-size: 15px;
+      }
+    }
+    .clear{
+      clear: both;
+    }
+
+    .event{
+      .content p{
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+
+  .room-state{
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 15px;
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+  }
+}
