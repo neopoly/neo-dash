@@ -9,7 +9,6 @@ unless DASHBOARD_NOTEPAD_URL.empty?
 
     content = Curl::Easy.perform(url).body_str[%r{<body>(.*)</body>}m, 1]
     content = content.force_encoding("UTF-8")
-
     SENDER.send_event 'dashboard_notepad', content: content
   end
 end
