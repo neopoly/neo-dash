@@ -98,6 +98,8 @@ class Dashing.Gitter extends Dashing.Widget
     window.setTimeout(@updateTimestamps, @constructor.TIMEOUT)
 
   onData: (data) =>
+    for message in data.last_messages
+      @get("room").appendMessage(message)
     @ensureBinder()
     $(@node).fadeOut().fadeIn()
 
