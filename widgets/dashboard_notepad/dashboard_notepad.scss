@@ -1,5 +1,8 @@
-@import "../list/list";
 $background-color: #ec7e2d;
+$title-color:     rgba(255, 255, 255, 0.7);
+$header-color:    rgba(255, 255, 255, 1.0);
+$content-color:   rgba(255, 255, 255, 0.7);
+$highlight-color: rgba(255, 255, 255, 1.0);
 
 .widget-dashboard-notepad {
   background-color: $background-color;
@@ -13,16 +16,41 @@ $background-color: #ec7e2d;
   }
 
   div.content {
-    color: rgba(0, 0, 0, 0.7);
-    max-height: 240px;
-    overflow: hidden;
+    color: $content-color;
+    max-height: 550px;
+    font-size: 18px;
+    text-align: left;
+    h2, h3, h4{
+      margin: 18px 0 6px 0;
+      color: $header-color;
+      a.wiki-anchor{
+        display: none;
+      }
+    }
+    h2{
+      font-size: 18px;
+    }
+    h3{
+      font-size: 15px;
+    }
+    ul{
+      margin-left: 12px;
+      .value{
+        float: right;
+        margin-left: 12px;
+      }
+    }
+    strong, b{
+      color: $highlight-color;
+      font-weight: normal;
+    }
   }
 
   p.more-info {
     width: 100%;
     position: absolute;
     bottom: 36px;
-    color: $moreinfo-color;
+    color: $content-color;
     font-size: 15px;
   }
 

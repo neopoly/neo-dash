@@ -1,7 +1,17 @@
 class Dashing.DashboardNotepad extends Dashing.Widget
 
   ready: ->
-    # This is fired when the widget is done being rendered
+    @splitListItems()
 
   onData: (data) ->
-    # nothing
+    @splitListItems()
+
+  splitListItems: =>
+    $(@node).find("ul li").each ->
+      $el = $(@)
+      segments = $el.html().split(":")
+      if segments.length > 1
+        $el.html(
+          "<span class='label'>"+segments.shift()+"</span>" +
+          "<span class='value'>"+segments.join(":")+"</span>"
+        )
