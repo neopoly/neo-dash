@@ -7,7 +7,7 @@
 <div class="scrollable">
   <div class="scrollable-content">
     <ol class="messages">
-      <li data-foreach-item="room.messages" data-bind-class="item.kind">
+      <li data-foreach-item="room.messages">
         <div class="avatar">
           <img data-renderif="item.fromUser" data-bind-src="item.fromUser.avatarUrlSmall"></img>
         </div>
@@ -17,7 +17,7 @@
             <span data-bind-data-timestamp="item.sent" data-bind="item.sent | relativeDate"></span>
           </div>
 
-          <p data-bind="item.text | emojify | niceTruncate 200 | raw"></p>
+          <p data-bind="item.text | emojify | raw"></p>
         </div>
         <div class="clear"></div>
       </li>

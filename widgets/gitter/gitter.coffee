@@ -89,6 +89,7 @@ class Dashing.Gitter extends Dashing.Widget
 
   ready: =>
     @ensureBinder()
+    @truncate()
 
   updateTimestamps: =>
     $(@node).find("[data-timestamp]").each ->
@@ -100,7 +101,6 @@ class Dashing.Gitter extends Dashing.Widget
   onData: (data) =>
     for message in data.last_messages
       @get("room").appendMessage(message)
-    @ensureBinder()
     $(@node).fadeOut().fadeIn()
 
   ensureBinder: =>
@@ -114,6 +114,12 @@ class Dashing.Gitter extends Dashing.Widget
       @binder = new Dashing.GitterBinder(@get("room"), client)
       @binder.bind()
       @updateTimestamps()
+      @get("room").get("messages").on "itemsWereAdded", @truncate
 
   hasConfig: =>
     @access_token && @room_id
+
+  truncate: =>
+    $(@node).find(".content p").dotdotdot(
+      ellipsis: "…"
+    )
