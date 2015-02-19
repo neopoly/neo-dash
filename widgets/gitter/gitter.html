@@ -1,13 +1,13 @@
 <h1 class="title" data-bind="title"></h1>
 
-<div data-hideif="room.messages.length" class="no-messages">
+<div data-hideif="messages.length" class="no-messages">
   Listening…
 </div>
 
 <div class="scrollable">
   <div class="scrollable-content">
     <ol class="messages">
-      <li data-foreach-item="room.messages">
+      <li data-foreach-item="messages" data-bind-class="item.resource">
         <div class="avatar">
           <img data-renderif="item.fromUser" data-bind-src="item.fromUser.avatarUrlSmall"></img>
         </div>
@@ -25,6 +25,4 @@
   </div>
 </div>
 
-<p class="room-state">
-  <span data-hideif="room.online">Offline</span><span data-showif="room.online">Live</span>
-</p>
+<p class="updated-at" data-bind="updatedAtMessage"></p>
