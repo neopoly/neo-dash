@@ -6,7 +6,7 @@ class Dashing.Gitter extends Dashing.Widget
     @updateTimestamps()
     @findThingsToSay()
 
-  onData: (data) ->
+  onData: (data) =>
     @findThingsToSay()
 
   wasAlreadySpoken: (message_id) =>
@@ -18,18 +18,25 @@ class Dashing.Gitter extends Dashing.Widget
   findThingsToSay: =>
     outer = @
 
-    $(@node).find("[data-item-id]").each ->
-      $el = $(@)
-      item_id = $el.data("item-id")
-      text = $el.find(".message-body").text()
-      console.log(text)
-      if(!outer.wasAlreadySpoken(item_id) && (text.indexOf("say:") != -1))
-        outer.say(text.split("say:").join(""))
-        outer.markSpoken(item_id)
+    window.setTimeout(
+      () => 
+        $(@node).find(".gitter-message").each ->
+          $el = $(@)
+          item_id = $el.data("item-id")
+          text = $el.find(".message-body").text()
+          # console.log("  text", text)
+          if(!outer.wasAlreadySpoken(item_id) && (text.indexOf("say:") != -1))
+            # console.log("    -> say!")
+            outer.say(text.split("say:").join(""))
+            outer.markSpoken(item_id)
+        # console.log("after")
 
-    console.log("spoken:", @constructor.spoken)
+        # window.console.log("spoken:", @constructor.spoken)
 
-  say: (text) => 
+      , 1000
+    )
+
+  say: (text) -> 
     if (window.speechSynthesis)
       window.speechSynthesis.speak(new SpeechSynthesisUtterance(text))
     else if (window.console)

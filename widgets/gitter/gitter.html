@@ -7,7 +7,7 @@
 <div class="scrollable">
   <div class="scrollable-content">
     <ol class="messages">
-      <li data-bind-data-item-id="item.id" data-foreach-item="messages" data-bind-class="item.resource">
+      <li data-bind-data-item-id="item.id" data-foreach-item="messages" data-bind-class="item.resource | append ' gitter-message'">
         <div class="avatar">
           <img data-renderif="item.fromUser" data-bind-src="item.fromUser.avatarUrlSmall"></img>
         </div>
