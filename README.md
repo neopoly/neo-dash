@@ -28,6 +28,8 @@ export DASHBOARD_NOTEPAD_EVERY="2m"
 
 export GITTER_ACCESS_TOKEN=""
 export GITTER_ROOM_ID=""
+
+export OWNCLOUD_OVERVIEW_URL='http://<host>/public.php?service=files&t=<share_token>'
 ```
 
 # Run
