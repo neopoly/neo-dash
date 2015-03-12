@@ -8,6 +8,28 @@ Dashboard for neopoly with http://shopify.github.com/dashing
     cd neo-dash
     bundle
 
+# ENV
+
+```bash
+export JENKINS_BUILDS_URL="http://<host>/api/json"
+export REDMINE_ACTIVITY_URL="https://<username>:<password>@<host>/activity.atom?key=<key>"
+export AUTH_TOKEN=""
+
+export NICHTLUSTIG_EVERY="5m"
+export NICHTLUSTIG_OVERVIEW_URL="http://static.nichtlustig.de/comics/full/"
+
+export ERRBIT_URL=""
+export ERRBIT_KEYS="<csv>"
+
+export REDMINE_PROJECT_TIMETABLE_URL="https://<username>:<password>@<host>/projects/orga/issues/gantt.png?month=%{month}&months=4&query_id=18&year=%{year}&zoom=2&r=%{cache_key}"
+
+export DASHBOARD_NOTEPAD_URL='https://<username>:<password>@<host>/projects/orga/wiki/DashboardNotepad.html'
+export DASHBOARD_NOTEPAD_EVERY="2m"
+
+export GITTER_ACCESS_TOKEN=""
+export GITTER_ROOM_ID=""
+```
+
 # Run
 
     # client need it eventually
