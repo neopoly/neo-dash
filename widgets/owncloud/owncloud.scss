@@ -1,0 +1,27 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color: transparent;
+
+// ----------------------------------------------------------------------------
+// Widget-image styles
+// ----------------------------------------------------------------------------
+.widget-owncloud {
+  padding: 0!important;
+  background-color: $background-color;
+  .owncloud-image-container {
+    position: relative;
+  }
+  img {
+    max-height: 320px;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .owncloud-background{
+    width: 370px;
+    height: 340px;
+  }
+}
