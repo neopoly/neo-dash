@@ -71,7 +71,7 @@ class ImageResolver
     end
 
     def label
-      [event, dir].join(' > ')
+      [event, dir].join(' / ')
     end
 
     private
