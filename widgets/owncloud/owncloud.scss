@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color: transparent;
+$background-color: #ddd;
 
 // ----------------------------------------------------------------------------
 // Widget-image styles
@@ -18,6 +18,15 @@ $background-color: transparent;
     position: absolute;
     left: 0;
     top: 0;
+  }
+
+  .counter{
+    bottom: 12px !important;
+  }
+
+  .updated-at{
+    bottom: 30px;
+    color: invert($background-color);
   }
 
   .owncloud-background{
