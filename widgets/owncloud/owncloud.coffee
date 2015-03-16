@@ -9,13 +9,8 @@ class Dashing.Owncloud extends Dashing.Widget
       width:  $widget.width()
       height: $widget.height()
 
-    @$image.load @updateBackground
     @is_ready = true
 
   onData: (data) ->
     if @is_ready && @image.complete
       @$image.trigger('load')
-
-  updateBackground: =>
-    context = @canvas.getContext("2d")
-    context.drawImage(@image, 1, 1, 2, 2, 0, 0, @canvasSize.width, @canvasSize.height)
