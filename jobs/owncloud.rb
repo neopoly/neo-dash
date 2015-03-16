@@ -1,3 +1,15 @@
+class ChachedImageResolver
+  @@images = []
+
+  def self.next_image(url)
+    if @@images.empty?
+      @@images = ImageResolver.run(url)
+    end
+
+    @@images.pop
+  end
+end
+
 class ImageResolver
   require 'open-uri'
   require 'nokogiri'
@@ -113,8 +125,7 @@ if OWNCLOUD_OVERVIEW_URL
   OWNCLOUD_EVERY = ENV['OWNCLOUD_EVERY'] || "10s"
 
   SCHEDULER.every OWNCLOUD_EVERY, :first_in => 0 do
-    images = ImageResolver.run(OWNCLOUD_OVERVIEW_URL)
-    image = images.sample
+    image = ChachedImageResolver.next_image(OWNCLOUD_OVERVIEW_URL)
 
     SENDER.send_event 'owncloud', url: image.url, label: image.label
   end
