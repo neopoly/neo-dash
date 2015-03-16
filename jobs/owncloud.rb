@@ -1,21 +1,21 @@
-class ImageUrlResolver
+class ImageResolver
   require 'open-uri'
   require 'nokogiri'
 
   def self.run(base_url)
     instance = new(base_url)
     instance.send(:run)
-    instance.send(:image_urls)
+    instance.send(:images)
   end
 
   private
 
   attr_reader :base_url
-  attr_accessor :image_urls
+  attr_accessor :images
 
   def initialize(base_url)
     @base_url = base_url
-    @image_urls = []
+    @images = []
   end
 
   def run
@@ -23,15 +23,15 @@ class ImageUrlResolver
   end
 
   def collect_images_urls(current_url)
-    current_doc = document(current_url)
+    current_doc = document_for(current_url)
 
-    dirs(current_doc).each do |dir|
+    dirs_for(current_doc).each do |dir|
       begin
         next_url = build_url(current_url, dir)
-        next_doc = document(next_url)
+        next_doc = document_for(next_url)
 
-        images(next_doc).each do |e|
-          add image_url(next_url, e)
+        images_for(next_doc).each do |e|
+          add image(image_url(next_url, e), next_doc)
         end
 
         collect_images_urls(next_url)
@@ -39,8 +39,39 @@ class ImageUrlResolver
     end
   end
 
-  def add(image_url)
-    image_urls << image_url
+  def image(image_url, next_doc)
+    Image.new(image_url, next_doc)
+  end
+
+  class Image
+    attr_reader :url
+    def initialize(image_url, doc)
+      @url = image_url
+      @doc = doc
+    end
+
+    def label
+      [event, dir].join(' > ')
+    end
+
+    private
+
+    def event
+      @doc.css('#header #details').first.text.scan(/shared the folder (.*) with you/).flatten.first.capitalize
+    end
+
+    def dir
+      path = @doc.css('input[@name="dir"]').first.attr('value')
+      path.split(/\//).map do |crumb|
+        unless crumb.empty?
+          crumb.capitalize
+        end
+      end.compact
+    end
+  end
+
+  def add(image)
+    images << image
   end
 
   def image_url(url, element)
@@ -55,15 +86,15 @@ class ImageUrlResolver
     end
   end
 
-  def document(url)
+  def document_for(url)
     Nokogiri::HTML(open(url).read)
   end
 
-  def dirs(doc)
+  def dirs_for(doc)
     doc.css(dir_selector).map {|e| e.attributes['data-file'].value }
   end
 
-  def images(doc)
+  def images_for(doc)
     doc.css(image_selector)
   end
 
@@ -82,8 +113,9 @@ if OWNCLOUD_OVERVIEW_URL
   OWNCLOUD_EVERY = ENV['OWNCLOUD_EVERY'] || "10s"
 
   SCHEDULER.every OWNCLOUD_EVERY, :first_in => 0 do
-    image_urls = ImageUrlResolver.run(OWNCLOUD_OVERVIEW_URL)
+    images = ImageResolver.run(OWNCLOUD_OVERVIEW_URL)
+    image = images.sample
 
-    SENDER.send_event 'owncloud', url: image_urls.sample
+    SENDER.send_event 'owncloud', url: image.url, label: image.label
   end
 end
