@@ -1,36 +1,34 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color: #ddd;
+$background-color: #000;
+$background-blur: 12px;
 
 // ----------------------------------------------------------------------------
 // Widget-image styles
 // ----------------------------------------------------------------------------
 .widget-owncloud {
-  padding: 0!important;
-  background-color: $background-color;
-  .owncloud-image-container {
-    position: relative;
-  }
+  padding: 0 !important;
+  overflow: hidden;
+
   img {
-    max-height: 320px;
-    z-index: 1;
+    max-width: 9999px !important;
+  }
+
+  .background {
     position: absolute;
-    left: 0;
     top: 0;
-  }
-
-  .counter{
-    bottom: 12px !important;
-  }
-
-  .updated-at{
-    bottom: 30px;
-    color: invert($background-color);
-  }
-
-  .owncloud-background{
     width: 370px;
     height: 340px;
+    overflow: hidden;
+    opacity: 0.5;
+
+    img {
+      -webkit-filter: blur($background-blur);
+      -moz-filter: blur($background-blur);
+      -o-filter: blur($background-blur);
+      -ms-filter: blur($background-blur);
+      filter: blur($background-blur);
+    }
   }
 }
