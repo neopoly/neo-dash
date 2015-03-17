@@ -1,21 +1,23 @@
 class ChachedImageResolver
-  @@images = []
-  @@current = 0
-  @@size = 0
-
-  def self.next_image(url)
-    if @@images.empty?
-      @@current = 0
-      @@images = ImageResolver.run(url)
-      @@size = @@images.size
-    end
-
-    @@current += 1
-    @@images.shuffle.pop
+  def initialize
+    @images = []
+    @current = 0
+    @size = 0
   end
 
-  def self.counter
-    "#{@@current} von #{@@size}"
+  def next_image(url)
+    if @images.empty?
+      @current = 0
+      @images = ImageResolver.run(url).shuffle
+      @size = @images.size
+    end
+
+    @current += 1
+    @images.pop
+  end
+
+  def counter
+    "#{@current} von #{@size}"
   end
 end
 
@@ -133,9 +135,11 @@ OWNCLOUD_OVERVIEW_URL = ENV['OWNCLOUD_OVERVIEW_URL']
 if OWNCLOUD_OVERVIEW_URL
   OWNCLOUD_EVERY = ENV['OWNCLOUD_EVERY'] || "10s"
 
+  resolver = ChachedImageResolver.new
+
   SCHEDULER.every OWNCLOUD_EVERY, :first_in => 0 do
-    image = ChachedImageResolver.next_image(OWNCLOUD_OVERVIEW_URL)
-    counter = ChachedImageResolver.counter
+    image = resolver.next_image(OWNCLOUD_OVERVIEW_URL)
+    counter = resolver.counter
 
     SENDER.send_event 'owncloud', url: image.url, label: image.label, counter: counter
   end
