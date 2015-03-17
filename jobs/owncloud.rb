@@ -5,6 +5,7 @@ class ChachedImageResolver
 
   def self.next_image(url)
     if @@images.empty?
+      @@current = 0
       @@images = ImageResolver.run(url)
       @@size = @@images.size
     end
