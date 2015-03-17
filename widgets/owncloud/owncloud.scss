@@ -1,36 +1,61 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color: #ddd;
+$background-color: #000;
+$background-blur: 16px;
+$owncloud-width: 370px;
+$owncloud-height: 340px;
 
 // ----------------------------------------------------------------------------
 // Widget-image styles
 // ----------------------------------------------------------------------------
 .widget-owncloud {
-  padding: 0!important;
-  background-color: $background-color;
-  .owncloud-image-container {
-    position: relative;
-  }
+  padding: 0 !important;
+  overflow: hidden;
+
   img {
-    max-height: 320px;
-    z-index: 1;
+    max-width: 9999px !important;
+    width: auto;
+    height: auto;
+  }
+
+  .foreground {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    img {
+      z-index: 9999;
+    }
   }
 
-  .counter{
-    bottom: 12px !important;
+  .credits {
+    position: absolute;
+    bottom: 0.25em;
+    font-size: 0.5em;
+    width: $owncloud-width;
+    z-index: 9999;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.5);
+
+    span {
+      padding-left: 1.5em;
+      color: #ddd;
+    }
   }
 
-  .updated-at{
-    bottom: 30px;
-    color: invert($background-color);
-  }
+  .background {
+    position: absolute;
+    top: 0;
+    width: $owncloud-width;
+    height: $owncloud-height;
+    overflow: hidden;
+    opacity: 0.5;
 
-  .owncloud-background{
-    width: 370px;
-    height: 340px;
+    img {
+      -webkit-filter: blur($background-blur);
+      -moz-filter: blur($background-blur);
+      -o-filter: blur($background-blur);
+      -ms-filter: blur($background-blur);
+      filter: blur($background-blur);
+    }
   }
 }
