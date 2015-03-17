@@ -23,13 +23,13 @@ class Dashing.Owncloud extends Dashing.Widget
   foregroundImageTemplate: (image, data) =>
     if(image.width > 0 && image.height > 0)
       target_ratio = @size.w / @size.h
-      image_ratio = image.widht / image.height
+      image_ratio = image.width / image.height
       factor = 0
 
-      if(target_ratio < image_ratio)
-        factor = @size.h / image.height
-      else
+      if(image_ratio > target_ratio)
         factor = @size.w / image.width
+      else
+        factor = @size.h / image.height
 
       placement = {
         w: image.width * factor,
@@ -50,7 +50,6 @@ class Dashing.Owncloud extends Dashing.Widget
     image.src = data.url
 
   updateImage: (data) =>
-    window.console.log("update image")
     @loadImageThen(data, (image) =>
       @$widget.children().animate({opacity: 0}, 250, ()=>
         @$widget.children().remove()
