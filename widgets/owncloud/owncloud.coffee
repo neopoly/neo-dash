@@ -17,6 +17,9 @@ class Dashing.Owncloud extends Dashing.Widget
     offset = 20
     "<div class='background'><img style='width: #{@size.w + 2*offset}px !important; height: #{@size.h + 2*offset}px !important; margin-top: -#{offset}px; margin-left: -#{offset}px' src='#{data.url}'></div>"
   
+  creditsTemplate: (data) =>
+    "<div class='credits'>#{data.label}</div>"
+  
   foregroundImageTemplate: (image, data) =>
     if(image.width > 0 && image.height > 0)
       target_ratio = @size.w / @size.h
@@ -49,9 +52,10 @@ class Dashing.Owncloud extends Dashing.Widget
   updateImage: (data) =>
     window.console.log("update image")
     @loadImageThen(data, (image) =>
-      @$widget.children().animate({opacity: 0}, 500, ()=>
+      @$widget.children().animate({opacity: 0}, 250, ()=>
         @$widget.children().remove()
-        @$widget.append($(@backgroundImageTemplate(image, data)).css("opacity", 0).animate({opacity: 1}, 1000))
+        @$widget.append($(@backgroundImageTemplate(image, data)).css("opacity", 0).animate({opacity: 1}, 1300))
         @$widget.append($(@foregroundImageTemplate(image, data)).css("opacity", 0).animate({opacity: 1}, 1000))
+        @$widget.append($(@creditsTemplate(data)).css("opacity", 0).animate({opacity: 1}, 1000))
       )
     )

@@ -3,6 +3,8 @@
 // ----------------------------------------------------------------------------
 $background-color: #000;
 $background-blur: 16px;
+$owncloud-width: 370px;
+$owncloud-height: 340px;
 
 // ----------------------------------------------------------------------------
 // Widget-image styles
@@ -24,11 +26,20 @@ $background-blur: 16px;
     }
   }
 
+  .credits {
+    position: absolute;
+    bottom: 0.25em;
+    font-size: 0.5em;
+    width: $owncloud-width;
+    z-index: 9999;
+    text-shadow: 0 2px 2px black
+  }
+
   .background {
     position: absolute;
     top: 0;
-    width: 370px;
-    height: 340px;
+    width: $owncloud-width;
+    height: $owncloud-height;
     overflow: hidden;
     opacity: 0.5;
 
