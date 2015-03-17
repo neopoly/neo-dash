@@ -18,7 +18,7 @@ class Dashing.Owncloud extends Dashing.Widget
     "<div class='background'><img style='width: #{@size.w + 2*offset}px !important; height: #{@size.h + 2*offset}px !important; margin-top: -#{offset}px; margin-left: -#{offset}px' src='#{data.url}'></div>"
   
   creditsTemplate: (data) =>
-    "<div class='credits'>#{data.label}</div>"
+    "<div class='credits'>#{data.label} <span>#{data.counter}</span></div>"
   
   foregroundImageTemplate: (image, data) =>
     if(image.width > 0 && image.height > 0)

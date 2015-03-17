@@ -32,7 +32,12 @@ $owncloud-height: 340px;
     font-size: 0.5em;
     width: $owncloud-width;
     z-index: 9999;
-    text-shadow: 0 2px 2px black
+    text-shadow: 0 2px 3px rgba(0,0,0,0.5);
+
+    span {
+      padding-left: 1.5em;
+      color: #ddd;
+    }
   }
 
   .background {
