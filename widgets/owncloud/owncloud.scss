@@ -2,7 +2,7 @@
 // Sass declarations
 // ----------------------------------------------------------------------------
 $background-color: #000;
-$background-blur: 12px;
+$background-blur: 16px;
 
 // ----------------------------------------------------------------------------
 // Widget-image styles
@@ -13,6 +13,15 @@ $background-blur: 12px;
 
   img {
     max-width: 9999px !important;
+  }
+
+  .foreground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    img {
+      z-index: 9999;
+    }
   }
 
   .background {
