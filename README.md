@@ -1,3 +1,5 @@
+:skull: DEPRECATED. Use https://github.com/neopoly/neoboard. Dashboard for us made with dashing
+
 # neo-dash
 
 Dashboard for neopoly with http://shopify.github.com/dashing
